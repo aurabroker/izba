@@ -20,9 +20,16 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 type NavItem = { to: string; label: string; end?: boolean };
 
-// Nawigacja per rola. Rozszerzana wraz z kolejnymi panelami (Klient/Agencja/…).
+// Nawigacja per rola.
 const NAV: Record<AppRole, NavItem[]> = {
-  client: [{ to: "/panel", label: "Pulpit", end: true }],
+  client: [
+    { to: "/panel", label: "Pulpit", end: true },
+    { to: "/panel/produkty", label: "Produkty" },
+    { to: "/panel/wnioski", label: "Wnioski" },
+    { to: "/panel/certyfikaty", label: "Certyfikaty" },
+    { to: "/panel/platnosci", label: "Płatności" },
+    { to: "/panel/podmioty", label: "Moje podmioty" },
+  ],
   izba: [{ to: "/panel", label: "Pulpit", end: true }],
   agency: [{ to: "/panel", label: "Pulpit", end: true }],
   admin: [{ to: "/panel", label: "Pulpit", end: true }],

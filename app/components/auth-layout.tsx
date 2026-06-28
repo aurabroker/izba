@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 
+export { Field } from "./ui";
+
 /** Wspólny układ ekranów logowania/rejestracji: granatowy panel + karta formularza. */
 export function AuthLayout({
   title,
@@ -52,41 +54,5 @@ export function AuthLayout({
         </div>
       </div>
     </div>
-  );
-}
-
-/** Pole formularza (label + input) — bezstanowe, sterowane propsami. */
-export function Field({
-  label,
-  name,
-  type = "text",
-  required,
-  autoComplete,
-  defaultValue,
-  placeholder,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  autoComplete?: string;
-  defaultValue?: string;
-  placeholder?: string;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-sm font-medium text-slate-700">
-        {label}
-      </span>
-      <input
-        name={name}
-        type={type}
-        required={required}
-        autoComplete={autoComplete}
-        defaultValue={defaultValue}
-        placeholder={placeholder}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-slate-800 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-      />
-    </label>
   );
 }
