@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/* ── Tokeny design systemu (PISKP) ───────────────────────────────────────
+   DM Sans jako font UI (ładowany przez <link> w root.tsx), Georgia (serif)
+   dla nagłówków i dużych liczb — „papierowy/oficjalny" akcent (§5).
+   Tailwind v4: wartości z @theme stają się klasami utility
+   (np. text-brand-navy, font-serif, bg-brand-navy). */
+@theme {
+  --font-sans:
+    "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* Granatowy akcent „hero" / sekcje eksponowane */
+  --color-brand-navy: #0d2137;
+  --color-brand-navy-light: #1b3a6b;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+  }
+}
+
+@layer components {
+  /* Granatowy gradient dla sekcji hero / eksponowanych (design system §5). */
+  .bg-hero-gradient {
+    background-image: linear-gradient(
+      135deg,
+      var(--color-brand-navy) 0%,
+      var(--color-brand-navy-light) 100%
+    );
+  }
+
+  /* Bazowa karta: białe tło, miękki promień, delikatne obramowanie i cień. */
+  .card {
+    @apply rounded-2xl border border-slate-100 bg-white shadow-sm;
+  }
+}

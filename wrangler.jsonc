@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "izba-piskp",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    // Wartości publiczne (klucz anon/publishable jest z założenia widoczny w
+    // kliencie). Sekrety (service role) ustawiamy przez `wrangler secret put`.
+    "SUPABASE_URL": "https://kukvgsjrmrqtzhkszzum.supabase.co",
+    "SUPABASE_ANON_KEY": "sb_publishable_MIr6swJYHmBbAQU8joomhA_cTsbkCuG"
+  }
+  // R2 (skany, PDF certyfikatów) dopinamy, gdy powstanie panel Agencji:
+  // "r2_buckets": [{ "binding": "DOCUMENTS", "bucket_name": "izba-documents" }]
+}
