@@ -10,6 +10,7 @@ import {
   PageHeader,
   Table,
 } from "~/components/ui";
+import { StationForm } from "~/components/station-form";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Moje podmioty — PISKP" }];
@@ -157,22 +158,7 @@ export default function Podmioty({ loaderData }: Route.ComponentProps) {
           </Table>
         )}
 
-        <Form method="post" className="card grid gap-4 p-6 sm:grid-cols-2">
-          <h3 className="font-serif text-base text-brand-navy sm:col-span-2">
-            Dodaj stację
-          </h3>
-          <Field label="Nazwa stacji" name="name" required />
-          <Field label="NIP" name="nip" />
-          <Field label="Numer uprawnień (SKP)" name="skp_number" />
-          <Field label="Miasto" name="city" />
-          <Field label="Ulica" name="street" />
-          <Field label="Kod pocztowy" name="postal_code" />
-          <div className="sm:col-span-2">
-            <Button name="intent" value="create_station">
-              Dodaj stację
-            </Button>
-          </div>
-        </Form>
+        <StationForm />
       </section>
 
       {/* Diagności */}

@@ -1,5 +1,9 @@
 # Skopiuj do `.dev.vars` (ignorowane przez git) na potrzeby `wrangler dev` / `npm run dev`.
 # .dev.vars to lokalny odpowiednik sekretów Workera.
 SUPABASE_URL="https://twoj-projekt.supabase.co"
-SUPABASE_ANON_KEY="eyJhbGciOi..."
-SUPABASE_SERVICE_ROLE_KEY="eyJhbGciOi..."
+SUPABASE_ANON_KEY="sb_publishable_..."   # klucz publiczny Supabase
+SUPABASE_SECRET_KEY="sb_secret_..."      # klucz tajny (dawniej service_role); na razie nieużywany w kodzie
+
+# Klucz API GUS BIR (REGON) — wyłącznie serwerowy. Klucz produkcyjny z
+# https://api.stat.gov.pl/Home/RegonApi
+GUS_API_KEY="twoj_klucz_gus"

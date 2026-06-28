@@ -10,6 +10,9 @@ export default [
   route("register", "routes/register.tsx"),
   route("logout", "routes/logout.tsx"),
 
+  // API (resource routes)
+  route("api/regon/lookup", "routes/api.regon.lookup.tsx"),
+
   // Panel — wspólny layout z nawigacją per rola.
   route("panel", "routes/panel.tsx", [
     index("routes/panel.index.tsx"),

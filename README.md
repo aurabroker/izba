@@ -78,14 +78,23 @@ Supabase z prefiksem `izba_`:
 ## Wdrożenie na Cloudflare
 
 ```bash
-# Sekrety (service role NIE trafia do repo):
-npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+# Sekrety (NIE trafiają do repo):
+npx wrangler secret put GUS_API_KEY            # klucz API GUS BIR (REGON)
+# npx wrangler secret put SUPABASE_SECRET_KEY  # gdy potrzebne operacje admin-API
 
 npm run deploy
 ```
 
-`SUPABASE_URL` i `SUPABASE_ANON_KEY` są wartościami publicznymi (klucz anon jest
-z założenia widoczny w kliencie) i znajdują się w `wrangler.jsonc → vars`.
+`SUPABASE_URL` i `SUPABASE_ANON_KEY` są wartościami publicznymi (klucz publiczny
+Supabase jest z założenia widoczny w kliencie) i znajdują się w `wrangler.jsonc → vars`.
+
+### Integracja REGON (GUS BIR 1.1)
+
+Formularz dodawania stacji ma przycisk **„Pobierz z REGON"** — po podaniu NIP
+pobiera nazwę i adres z rejestru REGON i wypełnia pola. Wymaga sekretu
+`GUS_API_KEY` (klucz produkcyjny z api.stat.gov.pl). Wywołania idą przez
+serwerowy proxy `/api/regon/lookup` (klucz nie trafia do przeglądarki). Bez
+klucza przycisk poinformuje, że integracja nie jest skonfigurowana.
 
 ## Pierwszy administrator (bootstrap)
 
