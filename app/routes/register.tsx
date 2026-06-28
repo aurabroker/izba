@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Form, Link, data, redirect, useNavigation } from "react-router";
 import type { Route } from "./+types/register";
 import { getEnv } from "~/lib/context";
 import { getUserContext } from "~/lib/auth.server";
 import { createSupabaseServerClient } from "~/lib/supabase.server";
 import { AuthLayout, Field } from "~/components/auth-layout";
+import { regonMessage, useRegonLookup } from "~/components/use-regon";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Rejestracja — PISKP" }];
@@ -53,6 +55,19 @@ export default function Register({ actionData }: Route.ComponentProps) {
   const nav = useNavigation();
   const busy = nav.state !== "idle";
 
+  // REGON: pole NIP + autouzupełnienie nazwy (pole "Imię i nazwisko / nazwa").
+  const regon = useRegonLookup();
+  const [nip, setNip] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [seen, setSeen] = useState<typeof regon.data>(undefined);
+  if (regon.data !== seen) {
+    setSeen(regon.data);
+    if (regon.data?.company?.nazwa) setFullName(regon.data.company.nazwa);
+  }
+  const regonMsg = regonMessage(regon.data);
+  const inputClass =
+    "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-slate-800 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100";
+
   if (actionData?.confirmEmail) {
     return (
       <AuthLayout title="Sprawdź skrzynkę" subtitle="Potwierdzenie rejestracji">
@@ -89,12 +104,47 @@ export default function Register({ actionData }: Route.ComponentProps) {
             {actionData.error}
           </p>
         )}
-        <Field
-          label="Imię i nazwisko / nazwa"
-          name="full_name"
-          required
-          autoComplete="name"
-        />
+        {/* NIP + pobranie danych z REGON (opcjonalnie, dla stacji/firm) */}
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-medium text-slate-700">
+            NIP (opcjonalnie)
+          </span>
+          <div className="flex gap-2">
+            <input
+              name="nip"
+              value={nip}
+              onChange={(e) => setNip(e.target.value)}
+              placeholder="pobierz dane firmy z REGON"
+              className={inputClass}
+            />
+            <button
+              type="button"
+              onClick={() => regon.lookup(nip)}
+              disabled={regon.busy}
+              className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-4 text-sm font-medium text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+            >
+              {regon.busy ? "…" : "REGON"}
+            </button>
+          </div>
+          {regonMsg && (
+            <span className="mt-1 block text-xs text-amber-600">{regonMsg}</span>
+          )}
+        </label>
+
+        <label className="block">
+          <span className="mb-1.5 block text-sm font-medium text-slate-700">
+            Imię i nazwisko / nazwa
+          </span>
+          <input
+            name="full_name"
+            required
+            autoComplete="name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className={inputClass}
+          />
+        </label>
+
         <Field label="E-mail" name="email" type="email" required autoComplete="email" />
         <Field
           label="Hasło"

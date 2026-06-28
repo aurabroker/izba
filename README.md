@@ -78,14 +78,23 @@ Supabase z prefiksem `izba_`:
 ## Wdrożenie na Cloudflare
 
 ```bash
-# Sekrety (service role NIE trafia do repo):
-npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+# Sekrety (NIE trafiają do repo):
+npx wrangler secret put GUS_API_KEY            # klucz API GUS BIR (REGON)
+# npx wrangler secret put SUPABASE_SECRET_KEY  # gdy potrzebne operacje admin-API
 
 npm run deploy
 ```
 
-`SUPABASE_URL` i `SUPABASE_ANON_KEY` są wartościami publicznymi (klucz anon jest
-z założenia widoczny w kliencie) i znajdują się w `wrangler.jsonc → vars`.
+`SUPABASE_URL` i `SUPABASE_ANON_KEY` są wartościami publicznymi (klucz publiczny
+Supabase jest z założenia widoczny w kliencie) i znajdują się w `wrangler.jsonc → vars`.
+
+### Integracja REGON (GUS BIR 1.1)
+
+Formularz dodawania stacji ma przycisk **„Pobierz z REGON"** — po podaniu NIP
+pobiera nazwę i adres z rejestru REGON i wypełnia pola. Wymaga sekretu
+`GUS_API_KEY` (klucz produkcyjny z api.stat.gov.pl). Wywołania idą przez
+serwerowy proxy `/api/regon/lookup` (klucz nie trafia do przeglądarki). Bez
+klucza przycisk poinformuje, że integracja nie jest skonfigurowana.
 
 ## Pierwszy administrator (bootstrap)
 
@@ -98,6 +107,25 @@ where id = (select id from auth.users where email = 'TWOJ_EMAIL');
 ```
 
 Kolejnych użytkowników admin promuje już z panelu (`/panel/admin/uzytkownicy`).
+
+## Konta DEMO
+
+Dane testowe do klikania po panelach — skrypt `supabase/seed_demo.sql`
+(idempotentny). **Hasło dla wszystkich: `Demo1234!`**
+
+| E-mail | Rola |
+|---|---|
+| `demo-klient@piskp.demo` | Klient (stacja + 2 diagnostów, wnioski, certyfikat, płatności) |
+| `demo-agencja@piskp.demo` | Agencja |
+| `demo-izba@piskp.demo` | Izba |
+| `demo-admin@piskp.demo` | Admin |
+
+Dane mockowe: 3 produkty, 1 stacja, 2 diagnostów (z PESEL), 3 wnioski (szkic /
+złożony / zatwierdzony), 1 certyfikat, 2 płatności, wpisy w rejestrze zdarzeń.
+Usunięcie danych demo: instrukcja na końcu `supabase/seed_demo.sql`.
+
+> Konta demo są wyłącznie do prezentacji/testów — przed produkcyjnym
+> uruchomieniem dla realnych użytkowników usuń je.
 
 ## RODO / bezpieczeństwo
 

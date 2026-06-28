@@ -1,10 +1,12 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import {
   APPLICATION_STATUS_LABEL,
   CERTIFICATE_STATUS_LABEL,
+  CLAIM_STATUS_LABEL,
   PAYMENT_STATUS_LABEL,
   type ApplicationStatus,
   type CertificateStatus,
+  type ClaimStatus,
   type PaymentStatus,
 } from "~/lib/types";
 
@@ -24,6 +26,10 @@ const STATUS_CLASS: Record<string, string> = {
   // certyfikaty
   active: "bg-emerald-50 text-emerald-700",
   expired: "bg-slate-100 text-slate-500",
+  // szkody
+  reported: "bg-blue-50 text-blue-700",
+  in_review: "bg-amber-50 text-amber-700",
+  accepted: "bg-emerald-50 text-emerald-700",
 };
 
 export function ApplicationBadge({ status }: { status: ApplicationStatus }) {
@@ -34,6 +40,9 @@ export function PaymentBadge({ status }: { status: PaymentStatus }) {
 }
 export function CertificateBadge({ status }: { status: CertificateStatus }) {
   return <Pill label={CERTIFICATE_STATUS_LABEL[status]} status={status} />;
+}
+export function ClaimBadge({ status }: { status: ClaimStatus }) {
+  return <Pill label={CLAIM_STATUS_LABEL[status]} status={status} />;
 }
 
 function Pill({ label, status }: { label: string; status: string }) {
@@ -140,6 +149,42 @@ export function Table({
         </thead>
         <tbody className="divide-y divide-slate-50">{children}</tbody>
       </table>
+    </div>
+  );
+}
+
+// ── Pasek filtrów (parametr URL) ─────────────────────────────────────────
+export function FilterBar({
+  param,
+  options,
+}: {
+  param: string;
+  options: { value: string; label: string }[];
+}) {
+  const [sp] = useSearchParams();
+  const current = sp.get(param) ?? "";
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((o) => {
+        const active = current === o.value;
+        const next = new URLSearchParams(sp);
+        if (o.value) next.set(param, o.value);
+        else next.delete(param);
+        const qs = next.toString();
+        return (
+          <Link
+            key={o.value || "all"}
+            to={qs ? `?${qs}` : "?"}
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              active
+                ? "bg-brand-navy text-white"
+                : "border border-slate-200 text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            {o.label}
+          </Link>
+        );
+      })}
     </div>
   );
 }
