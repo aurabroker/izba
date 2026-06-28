@@ -111,6 +111,12 @@ insert into public.izba_payments (id, application_id, certificate_id, amount, cu
   ('88888888-8888-8888-8888-888888888804','66666666-6666-6666-6666-666666666606','77777777-7777-7777-7777-777777777702', 1200.00, 'PLN', (current_date - interval '12 months')::date, 'paid', (now() - interval '12 months'), 'manual', '11111111-1111-1111-1111-111111111102')
 on conflict (id) do nothing;
 
+-- ── 11. Szkody demo ────────────────────────────────────────────────────────
+insert into public.izba_claims (id, certificate_id, reported_by, incident_date, description, amount_claimed, status, resolution_note, reviewed_by, reviewed_at) values
+  ('99999999-9999-9999-9999-999999999901','77777777-7777-7777-7777-777777777701','11111111-1111-1111-1111-111111111101',(current_date - interval '5 days')::date,'Uszkodzenie pojazdu klienta podczas badania technicznego.', 8000.00, 'reported', null, null, null),
+  ('99999999-9999-9999-9999-999999999902','77777777-7777-7777-7777-777777777701','11111111-1111-1111-1111-111111111101',(current_date - interval '40 days')::date,'Reklamacja dotycząca wyniku badania.', 3500.00, 'accepted', 'Roszczenie uznane, wypłata w toku.', '11111111-1111-1111-1111-111111111102', now())
+on conflict (id) do nothing;
+
 -- ── Usunięcie danych demo (odkomentuj w razie potrzeby) ────────────────────
 -- delete from auth.users where email like 'demo-%@piskp.demo';
 --   (kasuje też powiązane izba_* przez ON DELETE CASCADE/SET NULL — uwaga na

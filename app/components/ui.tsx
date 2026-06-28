@@ -2,9 +2,11 @@ import { Link, useSearchParams } from "react-router";
 import {
   APPLICATION_STATUS_LABEL,
   CERTIFICATE_STATUS_LABEL,
+  CLAIM_STATUS_LABEL,
   PAYMENT_STATUS_LABEL,
   type ApplicationStatus,
   type CertificateStatus,
+  type ClaimStatus,
   type PaymentStatus,
 } from "~/lib/types";
 
@@ -24,6 +26,10 @@ const STATUS_CLASS: Record<string, string> = {
   // certyfikaty
   active: "bg-emerald-50 text-emerald-700",
   expired: "bg-slate-100 text-slate-500",
+  // szkody
+  reported: "bg-blue-50 text-blue-700",
+  in_review: "bg-amber-50 text-amber-700",
+  accepted: "bg-emerald-50 text-emerald-700",
 };
 
 export function ApplicationBadge({ status }: { status: ApplicationStatus }) {
@@ -34,6 +40,9 @@ export function PaymentBadge({ status }: { status: PaymentStatus }) {
 }
 export function CertificateBadge({ status }: { status: CertificateStatus }) {
   return <Pill label={CERTIFICATE_STATUS_LABEL[status]} status={status} />;
+}
+export function ClaimBadge({ status }: { status: ClaimStatus }) {
+  return <Pill label={CLAIM_STATUS_LABEL[status]} status={status} />;
 }
 
 function Pill({ label, status }: { label: string; status: string }) {

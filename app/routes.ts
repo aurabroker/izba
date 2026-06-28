@@ -24,17 +24,20 @@ export default [
     route("certyfikaty", "routes/panel.certyfikaty.tsx"),
     route("certyfikaty/:id", "routes/panel.certyfikaty.$id.tsx"),
     route("platnosci", "routes/panel.platnosci.tsx"),
+    route("szkody", "routes/panel.szkody.tsx"),
 
     // Agencja / Admin — zarządzanie programem
     route("agencja/produkty", "routes/panel.agencja.produkty.tsx"),
     route("agencja/wnioski", "routes/panel.agencja.wnioski.tsx"),
     route("agencja/platnosci", "routes/panel.agencja.platnosci.tsx"),
+    route("agencja/szkody", "routes/panel.agencja.szkody.tsx"),
 
     // Izba — przegląd (odczyt) + statystyki
     route("izba/statystyki", "routes/panel.izba.statystyki.tsx"),
     route("izba/certyfikaty", "routes/panel.izba.certyfikaty.tsx"),
     route("izba/platnosci", "routes/panel.izba.platnosci.tsx"),
     route("izba/produkty", "routes/panel.izba.produkty.tsx"),
+    route("izba/szkody", "routes/panel.izba.szkody.tsx"),
 
     // Admin — użytkownicy/role + audit log
     route("admin/uzytkownicy", "routes/panel.admin.uzytkownicy.tsx"),

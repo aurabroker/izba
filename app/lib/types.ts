@@ -13,6 +13,12 @@ export type ApplicationStatus =
   | "rejected";
 export type CertificateStatus = "active" | "expired" | "cancelled";
 export type PaymentStatus = "pending" | "paid" | "overdue" | "cancelled";
+export type ClaimStatus =
+  | "reported"
+  | "in_review"
+  | "accepted"
+  | "rejected"
+  | "paid";
 
 export type Profile = {
   id: string;
@@ -115,6 +121,21 @@ export type Payment = {
   updated_at: string;
 }
 
+export type Claim = {
+  id: string;
+  certificate_id: string;
+  reported_by: string;
+  incident_date: string | null;
+  description: string;
+  amount_claimed: number | null;
+  status: ClaimStatus;
+  resolution_note: string | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type AuditLogEntry = {
   id: number;
   actor_id: string | null;
@@ -150,6 +171,7 @@ export type Database = {
       izba_applications: TableDef<Application>;
       izba_certificates: TableDef<Certificate>;
       izba_payments: TableDef<Payment>;
+      izba_claims: TableDef<Claim>;
       izba_audit_log: TableDef<AuditLogEntry>;
     };
     // Puste sekcje muszą być mapowanym typem pustym (nie Record<string,never>),
@@ -163,6 +185,7 @@ export type Database = {
       izba_application_status: ApplicationStatus;
       izba_certificate_status: CertificateStatus;
       izba_payment_status: PaymentStatus;
+      izba_claim_status: ClaimStatus;
     };
     CompositeTypes: { [_ in never]: never };
   };
@@ -195,4 +218,12 @@ export const CERTIFICATE_STATUS_LABEL: Record<CertificateStatus, string> = {
   active: "Aktywny",
   expired: "Wygasły",
   cancelled: "Anulowany",
+};
+
+export const CLAIM_STATUS_LABEL: Record<ClaimStatus, string> = {
+  reported: "Zgłoszona",
+  in_review: "W analizie",
+  accepted: "Uznana",
+  rejected: "Odrzucona",
+  paid: "Wypłacona",
 };

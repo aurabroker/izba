@@ -28,6 +28,7 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/wnioski", label: "Wnioski" },
     { to: "/panel/certyfikaty", label: "Certyfikaty" },
     { to: "/panel/platnosci", label: "Płatności" },
+    { to: "/panel/szkody", label: "Szkody" },
     { to: "/panel/podmioty", label: "Moje podmioty" },
   ],
   izba: [
@@ -35,6 +36,7 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/izba/statystyki", label: "Statystyki" },
     { to: "/panel/izba/certyfikaty", label: "Certyfikaty" },
     { to: "/panel/izba/platnosci", label: "Płatności" },
+    { to: "/panel/izba/szkody", label: "Szkody" },
     { to: "/panel/izba/produkty", label: "Produkty" },
     { to: "/panel/symulacja", label: "Symulacja" },
   ],
@@ -43,6 +45,7 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/agencja/wnioski", label: "Wnioski" },
     { to: "/panel/agencja/produkty", label: "Produkty" },
     { to: "/panel/agencja/platnosci", label: "Płatności" },
+    { to: "/panel/agencja/szkody", label: "Szkody" },
     { to: "/panel/symulacja", label: "Symulacja" },
   ],
   admin: [
@@ -50,6 +53,7 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/agencja/wnioski", label: "Wnioski" },
     { to: "/panel/agencja/produkty", label: "Produkty" },
     { to: "/panel/agencja/platnosci", label: "Płatności" },
+    { to: "/panel/agencja/szkody", label: "Szkody" },
     { to: "/panel/izba/statystyki", label: "Statystyki" },
     { to: "/panel/symulacja", label: "Symulacja" },
     { to: "/panel/admin/uzytkownicy", label: "Użytkownicy" },
