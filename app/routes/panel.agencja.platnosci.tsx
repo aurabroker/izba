@@ -5,6 +5,7 @@ import { requireRole } from "~/lib/auth.server";
 import {
   Button,
   EmptyState,
+  FilterBar,
   PageHeader,
   PaymentBadge,
   Table,
@@ -12,6 +13,14 @@ import {
   formatPLN,
 } from "~/components/ui";
 import type { PaymentStatus } from "~/lib/types";
+
+const STATUS_FILTER = [
+  { value: "", label: "Wszystkie" },
+  { value: "pending", label: "Oczekujące" },
+  { value: "paid", label: "Opłacone" },
+  { value: "overdue", label: "Po terminie" },
+  { value: "cancelled", label: "Anulowane" },
+];
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Płatności (Agencja) — PISKP" }];
@@ -23,11 +32,21 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "admin",
   ]);
 
+  const status = new URL(request.url).searchParams.get("status") ?? "";
+  const allowed = ["pending", "paid", "overdue", "cancelled"];
+  let payQuery = supabase
+    .from("izba_payments")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (allowed.includes(status)) {
+    payQuery = payQuery.eq(
+      "status",
+      status as "pending" | "paid" | "overdue" | "cancelled",
+    );
+  }
+
   const [payments, apps, products, profiles] = await Promise.all([
-    supabase
-      .from("izba_payments")
-      .select("*")
-      .order("created_at", { ascending: false }),
+    payQuery,
     supabase.from("izba_applications").select("id,product_id,applicant_profile_id"),
     supabase.from("izba_products").select("id,name"),
     supabase.from("izba_profiles").select("id,full_name,email"),
@@ -84,10 +103,14 @@ export default function AgencjaPlatnosci({ loaderData }: Route.ComponentProps) {
         description="Oznaczaj płatności jako opłacone lub po terminie. Integracja bramki płatności zostanie dodana w kolejnym etapie."
       />
 
+      <div className="mb-6">
+        <FilterBar param="status" options={STATUS_FILTER} />
+      </div>
+
       {payments.length === 0 ? (
         <EmptyState
           title="Brak płatności"
-          description="Płatności tworzone są automatycznie przy wystawieniu certyfikatu."
+          description="Brak płatności dla wybranego filtra."
         />
       ) : (
         <Table

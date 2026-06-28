@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import {
   APPLICATION_STATUS_LABEL,
   CERTIFICATE_STATUS_LABEL,
@@ -140,6 +140,42 @@ export function Table({
         </thead>
         <tbody className="divide-y divide-slate-50">{children}</tbody>
       </table>
+    </div>
+  );
+}
+
+// ── Pasek filtrów (parametr URL) ─────────────────────────────────────────
+export function FilterBar({
+  param,
+  options,
+}: {
+  param: string;
+  options: { value: string; label: string }[];
+}) {
+  const [sp] = useSearchParams();
+  const current = sp.get(param) ?? "";
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((o) => {
+        const active = current === o.value;
+        const next = new URLSearchParams(sp);
+        if (o.value) next.set(param, o.value);
+        else next.delete(param);
+        const qs = next.toString();
+        return (
+          <Link
+            key={o.value || "all"}
+            to={qs ? `?${qs}` : "?"}
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              active
+                ? "bg-brand-navy text-white"
+                : "border border-slate-200 text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            {o.label}
+          </Link>
+        );
+      })}
     </div>
   );
 }

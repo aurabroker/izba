@@ -7,11 +7,21 @@ import {
   ApplicationBadge,
   Button,
   EmptyState,
+  FilterBar,
   FormError,
   PageHeader,
   formatDate,
   formatPLN,
 } from "~/components/ui";
+
+const STATUS_FILTER = [
+  { value: "", label: "Wszystkie" },
+  { value: "submitted", label: "Złożone" },
+  { value: "review", label: "W weryfikacji" },
+  { value: "approved", label: "Zatwierdzone" },
+  { value: "rejected", label: "Odrzucone" },
+  { value: "draft", label: "Szkice" },
+];
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "Wnioski (Agencja) — PISKP" }];
@@ -23,11 +33,21 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "admin",
   ]);
 
+  const status = new URL(request.url).searchParams.get("status") ?? "";
+  const allowed = ["draft", "submitted", "review", "approved", "rejected"];
+  let appsQuery = supabase
+    .from("izba_applications")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (allowed.includes(status)) {
+    appsQuery = appsQuery.eq(
+      "status",
+      status as "draft" | "submitted" | "review" | "approved" | "rejected",
+    );
+  }
+
   const [apps, products, stations, diags, profiles, certs] = await Promise.all([
-    supabase
-      .from("izba_applications")
-      .select("*")
-      .order("created_at", { ascending: false }),
+    appsQuery,
     supabase.from("izba_products").select("id,name"),
     supabase.from("izba_stations").select("id,name"),
     supabase.from("izba_diagnosticians").select("id,first_name,last_name"),
@@ -122,8 +142,10 @@ export default function AgencjaWnioski({ loaderData }: Route.ComponentProps) {
 
       <FormError message={actionData?.error} />
 
+      <FilterBar param="status" options={STATUS_FILTER} />
+
       {applications.length === 0 ? (
-        <EmptyState title="Brak wniosków" description="Nie wpłynęły jeszcze żadne wnioski." />
+        <EmptyState title="Brak wniosków" description="Brak wniosków dla wybranego filtra." />
       ) : (
         <div className="space-y-4">
           {applications.map((a) => (
