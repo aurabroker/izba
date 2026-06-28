@@ -304,15 +304,5 @@ export function FormError({ message }: { message?: string | null }) {
   );
 }
 
-// ── Formatowanie waluty PLN ──────────────────────────────────────────────────
-export function formatPLN(value: number): string {
-  return value.toLocaleString("pl-PL", {
-    style: "currency",
-    currency: "PLN",
-  });
-}
-
-export function formatDate(value: string | null): string {
-  if (!value) return "—";
-  return new Date(value).toLocaleDateString("pl-PL");
-}
+// ── Formatowanie (re-eksport z czystego modułu app/lib/format) ────────────────
+export { formatPLN, formatDate } from "~/lib/format";

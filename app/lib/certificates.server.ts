@@ -1,21 +1,5 @@
 import type { SupabaseServerClient } from "./supabase.server";
-
-/** Numer certyfikatu w formacie PISKP/RRRR/XXXXXX. */
-function generateCertificateNumber(): string {
-  const year = new Date().getFullYear();
-  const rand = Math.random().toString(36).slice(2, 8).toUpperCase();
-  return `PISKP/${year}/${rand}`;
-}
-
-function addMonths(date: Date, months: number): Date {
-  const d = new Date(date);
-  d.setMonth(d.getMonth() + months);
-  return d;
-}
-
-function isoDate(d: Date): string {
-  return d.toISOString().slice(0, 10);
-}
+import { addMonths, generateCertificateNumber, isoDate } from "./format";
 
 /**
  * Wystawia certyfikat dla zatwierdzonego wniosku i tworzy powiązaną płatność
