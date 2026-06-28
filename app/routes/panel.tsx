@@ -48,6 +48,9 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/agencja/wnioski", label: "Wnioski" },
     { to: "/panel/agencja/produkty", label: "Produkty" },
     { to: "/panel/agencja/platnosci", label: "Płatności" },
+    { to: "/panel/izba/statystyki", label: "Statystyki" },
+    { to: "/panel/admin/uzytkownicy", label: "Użytkownicy" },
+    { to: "/panel/admin/audyt", label: "Audyt" },
   ],
 };
 

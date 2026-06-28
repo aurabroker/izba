@@ -32,5 +32,9 @@ export default [
     route("izba/certyfikaty", "routes/panel.izba.certyfikaty.tsx"),
     route("izba/platnosci", "routes/panel.izba.platnosci.tsx"),
     route("izba/produkty", "routes/panel.izba.produkty.tsx"),
+
+    // Admin — użytkownicy/role + audit log
+    route("admin/uzytkownicy", "routes/panel.admin.uzytkownicy.tsx"),
+    route("admin/audyt", "routes/panel.admin.audyt.tsx"),
   ]),
 ] satisfies RouteConfig;
