@@ -1,14 +1,7 @@
 import { useState } from "react";
-import { Form, useFetcher } from "react-router";
+import { Form } from "react-router";
 import { Button } from "./ui";
-import type { RegonCompany } from "~/lib/regon.server";
-
-type RegonResponse = {
-  available?: boolean;
-  found?: boolean;
-  error?: string;
-  company?: RegonCompany;
-};
+import { regonMessage, useRegonLookup, type RegonResponse } from "./use-regon";
 
 const INPUT =
   "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-slate-800 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100";
@@ -24,14 +17,14 @@ const EMPTY = {
 
 /** Formularz dodania stacji z autouzupełnianiem danych z rejestru REGON (po NIP). */
 export function StationForm() {
-  const fetcher = useFetcher<RegonResponse>();
+  const regon = useRegonLookup();
   const [f, setF] = useState(EMPTY);
   const set =
     (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) =>
       setF((prev) => ({ ...prev, [k]: e.target.value }));
 
-  const busy = fetcher.state !== "idle";
-  const resp = fetcher.data;
+  const busy = regon.busy;
+  const resp = regon.data;
 
   // Dostosowanie stanu podczas renderu po nadejściu nowej odpowiedzi REGON
   // (wzorzec React zamiast useEffect — bez kaskadowych renderów).
@@ -52,18 +45,8 @@ export function StationForm() {
     }
   }
 
-  const lookup = () => {
-    if (f.nip.trim()) {
-      fetcher.load(`/api/regon/lookup?nip=${encodeURIComponent(f.nip.trim())}`);
-    }
-  };
-
-  const message =
-    resp?.available === false
-      ? "Integracja REGON nie jest skonfigurowana (brak klucza GUS)."
-      : resp && resp.found === false
-        ? (resp.error ?? "Nie znaleziono podmiotu w REGON.")
-        : null;
+  const lookup = () => regon.lookup(f.nip);
+  const message = regonMessage(resp);
 
   return (
     <Form method="post" className="card grid gap-4 p-6 sm:grid-cols-2">

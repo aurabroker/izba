@@ -1,17 +1,16 @@
 import type { Route } from "./+types/api.regon.lookup";
 import { getEnv } from "~/lib/context";
-import { requireUser } from "~/lib/auth.server";
 import { cleanNip, isValidNip, lookupByNip } from "~/lib/regon.server";
 
 /**
  * Serwerowy proxy do API GUS BIR (REGON). Klucz GUS pozostaje na serwerze.
- * Wymaga zalogowania; walidacja NIP lokalnie przed odpytaniem GUS.
+ * Dostępny bez logowania (używany też na publicznej stronie rejestracji);
+ * walidacja NIP lokalnie ogranicza zbędne zapytania. Rozważ cache/rate-limit
+ * po NIP jako utwardzenie, jeśli ruch wzrośnie.
  * GET /api/regon/lookup?nip=1234567890
  */
 export async function loader({ request, context }: Route.LoaderArgs) {
   const env = getEnv(context);
-  await requireUser(request, env);
-
   const nip = new URL(request.url).searchParams.get("nip") ?? "";
 
   if (!env.GUS_API_KEY) {
