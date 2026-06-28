@@ -31,8 +31,18 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/podmioty", label: "Moje podmioty" },
   ],
   izba: [{ to: "/panel", label: "Pulpit", end: true }],
-  agency: [{ to: "/panel", label: "Pulpit", end: true }],
-  admin: [{ to: "/panel", label: "Pulpit", end: true }],
+  agency: [
+    { to: "/panel", label: "Pulpit", end: true },
+    { to: "/panel/agencja/wnioski", label: "Wnioski" },
+    { to: "/panel/agencja/produkty", label: "Produkty" },
+    { to: "/panel/agencja/platnosci", label: "Płatności" },
+  ],
+  admin: [
+    { to: "/panel", label: "Pulpit", end: true },
+    { to: "/panel/agencja/wnioski", label: "Wnioski" },
+    { to: "/panel/agencja/produkty", label: "Produkty" },
+    { to: "/panel/agencja/platnosci", label: "Płatności" },
+  ],
 };
 
 export default function PanelLayout({ loaderData }: Route.ComponentProps) {

@@ -19,6 +19,12 @@ export default [
     route("produkty", "routes/panel.produkty.tsx"),
     route("wnioski", "routes/panel.wnioski.tsx"),
     route("certyfikaty", "routes/panel.certyfikaty.tsx"),
+    route("certyfikaty/:id", "routes/panel.certyfikaty.$id.tsx"),
     route("platnosci", "routes/panel.platnosci.tsx"),
+
+    // Agencja / Admin — zarządzanie programem
+    route("agencja/produkty", "routes/panel.agencja.produkty.tsx"),
+    route("agencja/wnioski", "routes/panel.agencja.wnioski.tsx"),
+    route("agencja/platnosci", "routes/panel.agencja.platnosci.tsx"),
   ]),
 ] satisfies RouteConfig;
