@@ -1,0 +1,22 @@
+node_modules/
+
+# React Router / Vite build output
+build/
+.react-router/
+
+# Cloudflare / Wrangler
+.wrangler/
+worker-configuration.d.ts
+
+# Generated Supabase types
+app/lib/database.types.ts
+
+# Local env / secrets
+.dev.vars
+.env
+.env.*
+!.env.example
+
+# Logs & OS
+*.log
+.DS_Store

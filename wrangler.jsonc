@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "izba-piskp",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    // Wartości publiczne wstrzykiwane do Workera. Sekrety (service role)
+    // ustawiamy przez `wrangler secret put`, nie tutaj.
+    "SUPABASE_URL": "",
+    "SUPABASE_ANON_KEY": ""
+  }
+  // R2 (skany, PDF certyfikatów) dopinamy, gdy powstanie panel Agencji:
+  // "r2_buckets": [{ "binding": "DOCUMENTS", "bucket_name": "izba-documents" }]
+}
