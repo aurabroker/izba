@@ -108,6 +108,25 @@ where id = (select id from auth.users where email = 'TWOJ_EMAIL');
 
 Kolejnych użytkowników admin promuje już z panelu (`/panel/admin/uzytkownicy`).
 
+## Konta DEMO
+
+Dane testowe do klikania po panelach — skrypt `supabase/seed_demo.sql`
+(idempotentny). **Hasło dla wszystkich: `Demo1234!`**
+
+| E-mail | Rola |
+|---|---|
+| `demo-klient@piskp.demo` | Klient (stacja + 2 diagnostów, wnioski, certyfikat, płatności) |
+| `demo-agencja@piskp.demo` | Agencja |
+| `demo-izba@piskp.demo` | Izba |
+| `demo-admin@piskp.demo` | Admin |
+
+Dane mockowe: 3 produkty, 1 stacja, 2 diagnostów (z PESEL), 3 wnioski (szkic /
+złożony / zatwierdzony), 1 certyfikat, 2 płatności, wpisy w rejestrze zdarzeń.
+Usunięcie danych demo: instrukcja na końcu `supabase/seed_demo.sql`.
+
+> Konta demo są wyłącznie do prezentacji/testów — przed produkcyjnym
+> uruchomieniem dla realnych użytkowników usuń je.
+
 ## RODO / bezpieczeństwo
 
 - **Minimalizacja danych:** PESEL diagnosty trzymany w osobnej tabeli
