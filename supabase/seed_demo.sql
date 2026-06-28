@@ -88,6 +88,29 @@ insert into public.izba_payments (id, application_id, certificate_id, amount, cu
   ('88888888-8888-8888-8888-888888888802','66666666-6666-6666-6666-666666666601', null, 1200.00, 'PLN', (current_date + interval '14 days')::date, 'pending', null, 'manual', null)
 on conflict (id) do nothing;
 
+-- ── 10. Dodatkowe dane demo — pełna paleta statusów ───────────────────────
+alter table public.izba_applications disable trigger trg_izba_validate_application_ownership;
+insert into public.izba_applications (id, product_id, applicant_profile_id, insured_type, station_id, diagnostician_id, status, premium_snapshot, notes, rejection_reason, reviewed_by, reviewed_at) values
+  -- w weryfikacji
+  ('66666666-6666-6666-6666-666666666604','33333333-3333-3333-3333-333333333303','11111111-1111-1111-1111-111111111101','station','44444444-4444-4444-4444-444444444401', null, 'review', 1800.00, 'Pakiet rozszerzony — w trakcie weryfikacji.', null, '11111111-1111-1111-1111-111111111102', now()),
+  -- odrzucony
+  ('66666666-6666-6666-6666-666666666605','33333333-3333-3333-3333-333333333301','11111111-1111-1111-1111-111111111101','diagnostician', null, '55555555-5555-5555-5555-555555555502','rejected', 480.00, 'Wniosek OC dla Anny Nowak.', 'Brak kompletu dokumentów (uprawnienia).', '11111111-1111-1111-1111-111111111102', now()),
+  -- zatwierdzony (do wygasłego certyfikatu)
+  ('66666666-6666-6666-6666-666666666606','33333333-3333-3333-3333-333333333302','11111111-1111-1111-1111-111111111101','station','44444444-4444-4444-4444-444444444401', null, 'approved', 1200.00, 'Ubiegłoroczne OC stacji.', null, '11111111-1111-1111-1111-111111111102', now())
+on conflict (id) do nothing;
+alter table public.izba_applications enable trigger trg_izba_validate_application_ownership;
+
+-- Wygasły certyfikat (ważność w przeszłości)
+insert into public.izba_certificates (id, application_id, certificate_number, issued_by, issued_at, valid_from, valid_to, status) values
+  ('77777777-7777-7777-7777-777777777702','66666666-6666-6666-6666-666666666606','PISKP/2025/DEMO02','11111111-1111-1111-1111-111111111102', (now() - interval '13 months'), (current_date - interval '13 months')::date, (current_date - interval '1 month')::date, 'expired')
+on conflict (id) do nothing;
+
+-- Płatności: po terminie (overdue) oraz opłacona za ubiegłoroczny certyfikat
+insert into public.izba_payments (id, application_id, certificate_id, amount, currency, due_date, status, paid_at, method, recorded_by) values
+  ('88888888-8888-8888-8888-888888888803','66666666-6666-6666-6666-666666666604', null, 1800.00, 'PLN', (current_date - interval '10 days')::date, 'overdue', null, 'manual', '11111111-1111-1111-1111-111111111102'),
+  ('88888888-8888-8888-8888-888888888804','66666666-6666-6666-6666-666666666606','77777777-7777-7777-7777-777777777702', 1200.00, 'PLN', (current_date - interval '12 months')::date, 'paid', (now() - interval '12 months'), 'manual', '11111111-1111-1111-1111-111111111102')
+on conflict (id) do nothing;
+
 -- ── Usunięcie danych demo (odkomentuj w razie potrzeby) ────────────────────
 -- delete from auth.users where email like 'demo-%@piskp.demo';
 --   (kasuje też powiązane izba_* przez ON DELETE CASCADE/SET NULL — uwaga na
