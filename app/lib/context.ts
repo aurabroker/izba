@@ -1,4 +1,4 @@
-import { createContext } from "react-router";
+import { createContext, type RouterContextProvider } from "react-router";
 
 /**
  * Kontekst loaderów/akcji (React Router 8) niosący środowisko Cloudflare
@@ -10,3 +10,8 @@ export const cloudflareContext = createContext<{
   env: Env;
   ctx: ExecutionContext;
 }>();
+
+/** Skrót po środowisko Workera w loaderze/akcji. */
+export function getEnv(context: Readonly<RouterContextProvider>): Env {
+  return context.get(cloudflareContext).env;
+}

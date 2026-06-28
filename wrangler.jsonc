@@ -8,10 +8,10 @@
     "enabled": true
   },
   "vars": {
-    // Wartości publiczne wstrzykiwane do Workera. Sekrety (service role)
-    // ustawiamy przez `wrangler secret put`, nie tutaj.
-    "SUPABASE_URL": "",
-    "SUPABASE_ANON_KEY": ""
+    // Wartości publiczne (klucz anon/publishable jest z założenia widoczny w
+    // kliencie). Sekrety (service role) ustawiamy przez `wrangler secret put`.
+    "SUPABASE_URL": "https://kukvgsjrmrqtzhkszzum.supabase.co",
+    "SUPABASE_ANON_KEY": "sb_publishable_MIr6swJYHmBbAQU8joomhA_cTsbkCuG"
   }
   // R2 (skany, PDF certyfikatów) dopinamy, gdy powstanie panel Agencji:
   // "r2_buckets": [{ "binding": "DOCUMENTS", "bucket_name": "izba-documents" }]
