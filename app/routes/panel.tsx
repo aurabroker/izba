@@ -36,12 +36,14 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/izba/certyfikaty", label: "Certyfikaty" },
     { to: "/panel/izba/platnosci", label: "Płatności" },
     { to: "/panel/izba/produkty", label: "Produkty" },
+    { to: "/panel/symulacja", label: "Symulacja" },
   ],
   agency: [
     { to: "/panel", label: "Pulpit", end: true },
     { to: "/panel/agencja/wnioski", label: "Wnioski" },
     { to: "/panel/agencja/produkty", label: "Produkty" },
     { to: "/panel/agencja/platnosci", label: "Płatności" },
+    { to: "/panel/symulacja", label: "Symulacja" },
   ],
   admin: [
     { to: "/panel", label: "Pulpit", end: true },
@@ -49,6 +51,7 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/agencja/produkty", label: "Produkty" },
     { to: "/panel/agencja/platnosci", label: "Płatności" },
     { to: "/panel/izba/statystyki", label: "Statystyki" },
+    { to: "/panel/symulacja", label: "Symulacja" },
     { to: "/panel/admin/uzytkownicy", label: "Użytkownicy" },
     { to: "/panel/admin/audyt", label: "Audyt" },
   ],

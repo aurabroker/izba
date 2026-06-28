@@ -39,5 +39,8 @@ export default [
     // Admin — użytkownicy/role + audit log
     route("admin/uzytkownicy", "routes/panel.admin.uzytkownicy.tsx"),
     route("admin/audyt", "routes/panel.admin.audyt.tsx"),
+
+    // Symulacja przychodów programu (Agencja / Izba / Admin)
+    route("symulacja", "routes/panel.symulacja.tsx"),
   ]),
 ] satisfies RouteConfig;
