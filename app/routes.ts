@@ -26,5 +26,11 @@ export default [
     route("agencja/produkty", "routes/panel.agencja.produkty.tsx"),
     route("agencja/wnioski", "routes/panel.agencja.wnioski.tsx"),
     route("agencja/platnosci", "routes/panel.agencja.platnosci.tsx"),
+
+    // Izba — przegląd (odczyt) + statystyki
+    route("izba/statystyki", "routes/panel.izba.statystyki.tsx"),
+    route("izba/certyfikaty", "routes/panel.izba.certyfikaty.tsx"),
+    route("izba/platnosci", "routes/panel.izba.platnosci.tsx"),
+    route("izba/produkty", "routes/panel.izba.produkty.tsx"),
   ]),
 ] satisfies RouteConfig;

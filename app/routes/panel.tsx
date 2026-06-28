@@ -30,7 +30,13 @@ const NAV: Record<AppRole, NavItem[]> = {
     { to: "/panel/platnosci", label: "Płatności" },
     { to: "/panel/podmioty", label: "Moje podmioty" },
   ],
-  izba: [{ to: "/panel", label: "Pulpit", end: true }],
+  izba: [
+    { to: "/panel", label: "Pulpit", end: true },
+    { to: "/panel/izba/statystyki", label: "Statystyki" },
+    { to: "/panel/izba/certyfikaty", label: "Certyfikaty" },
+    { to: "/panel/izba/platnosci", label: "Płatności" },
+    { to: "/panel/izba/produkty", label: "Produkty" },
+  ],
   agency: [
     { to: "/panel", label: "Pulpit", end: true },
     { to: "/panel/agencja/wnioski", label: "Wnioski" },
