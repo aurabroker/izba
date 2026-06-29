@@ -153,6 +153,31 @@ export function Table({
   );
 }
 
+// ── Wyszukiwarka (GET, parametr ?q=) ──────────────────────────────────────
+export function SearchBox({ placeholder }: { placeholder?: string }) {
+  const [sp] = useSearchParams();
+  const others = [...sp.entries()].filter(([k]) => k !== "q");
+  return (
+    <form method="get" className="flex gap-2">
+      {others.map(([k, v]) => (
+        <input key={k} type="hidden" name={k} value={v} />
+      ))}
+      <input
+        name="q"
+        defaultValue={sp.get("q") ?? ""}
+        placeholder={placeholder ?? "Szukaj…"}
+        className="w-full max-w-sm rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+      />
+      <button
+        type="submit"
+        className="rounded-full bg-brand-navy px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
+      >
+        Szukaj
+      </button>
+    </form>
+  );
+}
+
 // ── Pasek filtrów (parametr URL) ─────────────────────────────────────────
 export function FilterBar({
   param,

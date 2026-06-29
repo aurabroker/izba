@@ -6,6 +6,7 @@ import {
   CertificateBadge,
   EmptyState,
   PageHeader,
+  SearchBox,
   Table,
   formatDate,
 } from "~/components/ui";
@@ -19,23 +20,32 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     "izba",
     "admin",
   ]);
-  const { data: certificates } = await supabase
+  const q = (new URL(request.url).searchParams.get("q") ?? "").trim();
+
+  let query = supabase
     .from("izba_certificates")
     .select("*")
     .order("issued_at", { ascending: false });
-  return data({ certificates: certificates ?? [] }, { headers });
+  if (q) query = query.ilike("certificate_number", `%${q}%`);
+
+  const { data: certificates } = await query;
+  return data({ certificates: certificates ?? [], q }, { headers });
 }
 
 export default function IzbaCertyfikaty({ loaderData }: Route.ComponentProps) {
-  const { certificates } = loaderData;
+  const { certificates, q } = loaderData;
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-5xl space-y-6">
       <PageHeader
         title="Wystawione certyfikaty"
         description="Wszystkie certyfikaty wystawione w ramach programu."
       />
+      <SearchBox placeholder="Numer certyfikatu…" />
       {certificates.length === 0 ? (
-        <EmptyState title="Brak certyfikatów" />
+        <EmptyState
+          title="Brak certyfikatów"
+          description={q ? "Brak wyników dla zapytania." : undefined}
+        />
       ) : (
         <Table
           head={

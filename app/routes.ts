@@ -29,6 +29,7 @@ export default [
     // Agencja / Admin — zarządzanie programem
     route("agencja/produkty", "routes/panel.agencja.produkty.tsx"),
     route("agencja/wnioski", "routes/panel.agencja.wnioski.tsx"),
+    route("agencja/certyfikaty", "routes/panel.agencja.certyfikaty.tsx"),
     route("agencja/platnosci", "routes/panel.agencja.platnosci.tsx"),
     route("agencja/szkody", "routes/panel.agencja.szkody.tsx"),
 
