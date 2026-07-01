@@ -46,5 +46,8 @@ export default [
 
     // Symulacja przychodów programu (Agencja / Izba / Admin)
     route("symulacja", "routes/panel.symulacja.tsx"),
+
+    // Globalna wyszukiwarka
+    route("szukaj", "routes/panel.szukaj.tsx"),
   ]),
 ] satisfies RouteConfig;

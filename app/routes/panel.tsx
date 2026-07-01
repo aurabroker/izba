@@ -121,9 +121,28 @@ export default function PanelLayout({ loaderData }: Route.ComponentProps) {
       </aside>
 
       {/* Treść */}
-      <main className="px-6 py-8 lg:px-10">
-        <Outlet />
-      </main>
+      <div className="flex flex-col">
+        {/* Globalny pasek wyszukiwania */}
+        <div className="border-b border-slate-100 bg-white px-6 py-3 lg:px-10">
+          <form method="get" action="/panel/szukaj" className="flex gap-2">
+            <input
+              name="q"
+              placeholder="Szukaj: certyfikaty, stacje, diagnoci, produkty, szkody…"
+              className="w-full max-w-xl rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-800 outline-none transition focus:border-emerald-400 focus:bg-white focus:ring-2 focus:ring-emerald-100"
+            />
+            <button
+              type="submit"
+              className="rounded-full bg-brand-navy px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
+            >
+              Szukaj
+            </button>
+          </form>
+        </div>
+
+        <main className="px-6 py-8 lg:px-10">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
